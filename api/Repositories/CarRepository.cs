@@ -16,30 +16,44 @@ public class CarRepository : ICarRepository
 
     public async Task<List<CarEntity>> GetAllAsync() 
     {
-        return await _context.CarsCollection.Find(new BsonDocument()).ToListAsync();
+        var entities = await _context.CarsCollection
+            .FindAsync(new BsonDocument());
+        
+        return await entities.ToListAsync();   
     }
 
-    public async Task<CarEntity> GetByIdAsync(string carId)
+    public async Task<CarEntity?> GetByIdAsync(string id)
     {
-        FilterDefinition<CarEntity> filter = Builders<CarEntity>.Filter.Eq("Id", carId);
-        return await _context.CarsCollection.Find(filter).FirstOrDefaultAsync();
+        var entity = await _context.CarsCollection
+            .FindAsync(Builders<CarEntity>.Filter.Eq("Id", id));
+
+        return await entity.FirstOrDefaultAsync();
     }
 
-    public async Task CreateAsync(CarEntity car) 
+    public async Task<CarEntity> CreateAsync(CarEntity entity) 
     {
-        await _context.CarsCollection.InsertOneAsync(car);
+        await _context.CarsCollection.InsertOneAsync(entity);
+        
+        return entity;
     }
 
-    public async Task UpdateAsync(CarEntity car)
+    public async Task<bool> UpdateAsync(CarEntity entity)
     {
-        FilterDefinition<CarEntity> filter = Builders<CarEntity>.Filter.Eq("Id", car.Id);
-        await _context.CarsCollection.ReplaceOneAsync(filter, car);
+        FilterDefinition<CarEntity> filter = Builders<CarEntity>.Filter.Eq("Id", entity.Id);
+        
+        var result = await _context.CarsCollection.ReplaceOneAsync(filter, entity);
+
+        return result.ModifiedCount > 0;
     }
 
-    public async Task DeleteAsync(string carId)
+    public async Task<bool> DeleteAsync(string id)
     {
-        FilterDefinition<CarEntity> filter = Builders<CarEntity>.Filter.Eq("Id", carId);
-        await _context.CarsCollection.DeleteOneAsync(filter);
+        FilterDefinition<CarEntity> filter = Builders<CarEntity>.Filter.Eq("Id", id);
+        
+        var result = await _context.CarsCollection.DeleteOneAsync(filter);
+
+        return result.DeletedCount > 0;
+
     }
 }
   

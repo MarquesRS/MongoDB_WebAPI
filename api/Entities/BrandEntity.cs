@@ -1,13 +1,16 @@
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace api.Entities;
-
-public class BrandEntity 
+namespace api.Entities
 {
-    [BsonId]
-    [BsonRepresentation(BsonType.ObjectId)]
-    public string? Id {get; set;}
+    public class BrandEntity 
+    {
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
+        [BsonIgnoreIfDefault]
+        public string? Id {get; set;}
 
-    public string Name {get; set;} = string.Empty;
+        [BsonIgnoreIfDefault]
+        public string? Name { get; set; }
+    }
 }

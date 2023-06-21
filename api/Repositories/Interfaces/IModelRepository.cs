@@ -1,4 +1,5 @@
 using api.Entities;
+using api.Models;
 
 namespace api.Repositories;
 
@@ -6,13 +7,13 @@ public interface IModelRepository
 {
     Task<List<ModelEntity>> GetAllAsync();
 
-    Task<ModelEntity> GetByIdAsync(string modelId);
+    Task<ModelEntity?> GetByIdAsync(string id);
 
-    Task CreateAsync(ModelEntity model);
+    Task<ModelEntity> CreateAsync(ModelEntity entity);
     
-    Task UpdateAsync(ModelEntity model);
+    Task<bool> UpdateAsync(ModelEntity entity);
 
-    Task DeleteAsync(string modelId);
+    Task<bool> DeleteAsync(string id);
   }
   
   
