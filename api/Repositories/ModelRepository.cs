@@ -16,30 +16,44 @@ public class ModelRepository : IModelRepository
 
     public async Task<List<ModelEntity>> GetAllAsync() 
     {
-        return await _context.ModelsCollection.Find(new BsonDocument()).ToListAsync();
+        var entities = await _context.ModelsCollection
+            .FindAsync(new BsonDocument());
+        
+        return await entities.ToListAsync();   
     }
 
-    public async Task<ModelEntity> GetByIdAsync(string modelId)
+    public async Task<ModelEntity?> GetByIdAsync(string id)
     {
-        FilterDefinition<ModelEntity> filter = Builders<ModelEntity>.Filter.Eq("Id", modelId);
-        return await _context.ModelsCollection.Find(filter).FirstOrDefaultAsync();
+        var entity = await _context.ModelsCollection
+            .FindAsync(Builders<ModelEntity>.Filter.Eq("Id", id));
+
+        return await entity.FirstOrDefaultAsync();
     }
 
-    public async Task CreateAsync(ModelEntity model) 
+    public async Task<ModelEntity> CreateAsync(ModelEntity entity) 
     {
-        await _context.ModelsCollection.InsertOneAsync(model);
+        await _context.ModelsCollection.InsertOneAsync(entity);
+        
+        return entity;
     }
 
-    public async Task UpdateAsync(ModelEntity model)
+    public async Task<bool> UpdateAsync(ModelEntity entity)
     {
-        FilterDefinition<ModelEntity> filter = Builders<ModelEntity>.Filter.Eq("Id", model.Id);
-        await _context.ModelsCollection.ReplaceOneAsync(filter, model);
+        FilterDefinition<ModelEntity> filter = Builders<ModelEntity>.Filter.Eq("Id", entity.Id);
+        
+        var result = await _context.ModelsCollection.ReplaceOneAsync(filter, entity);
+
+        return result.ModifiedCount > 0;
     }
 
-    public async Task DeleteAsync(string modelId)
+    public async Task<bool> DeleteAsync(string id)
     {
-        FilterDefinition<ModelEntity> filter = Builders<ModelEntity>.Filter.Eq("Id", modelId);
-        await _context.ModelsCollection.DeleteOneAsync(filter);
+        FilterDefinition<ModelEntity> filter = Builders<ModelEntity>.Filter.Eq("Id", id);
+        
+        var result = await _context.ModelsCollection.DeleteOneAsync(filter);
+
+        return result.DeletedCount > 0;
+
     }
 }
   

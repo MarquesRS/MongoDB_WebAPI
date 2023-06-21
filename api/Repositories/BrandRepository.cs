@@ -2,6 +2,7 @@ using api.Services;
 using api.Entities;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using api.Models;
 
 namespace api.Repositories;
 
@@ -16,30 +17,44 @@ public class BrandRepository : IBrandRepository
 
     public async Task<List<BrandEntity>> GetAllAsync() 
     {
-        return await _context.BrandsCollection.Find(new BsonDocument()).ToListAsync();
+        var brandsEntities = await _context.BrandsCollection
+            .FindAsync(new BsonDocument());
+        
+        return await brandsEntities.ToListAsync();   
     }
 
-    public async Task<BrandEntity> GetByIdAsync(string brandId)
+    public async Task<BrandEntity?> GetByIdAsync(string brandId)
     {
-        FilterDefinition<BrandEntity> filter = Builders<BrandEntity>.Filter.Eq("Id", brandId);
-        return await _context.BrandsCollection.Find(filter).FirstOrDefaultAsync();
+        var brandEntity = await _context.BrandsCollection
+            .FindAsync(Builders<BrandEntity>.Filter.Eq("Id", brandId));
+
+        return await brandEntity.FirstOrDefaultAsync();
     }
 
-    public async Task CreateAsync(BrandEntity brand) 
+    public async Task<BrandEntity> CreateAsync(BrandEntity brand) 
     {
         await _context.BrandsCollection.InsertOneAsync(brand);
+        
+        return brand;
     }
 
-    public async Task UpdateAsync(BrandEntity brand)
+    public async Task<bool> UpdateAsync(BrandEntity brand)
     {
         FilterDefinition<BrandEntity> filter = Builders<BrandEntity>.Filter.Eq("Id", brand.Id);
-        await _context.BrandsCollection.ReplaceOneAsync(filter, brand);
+        
+        var result = await _context.BrandsCollection.ReplaceOneAsync(filter, brand);
+    
+        return result.ModifiedCount > 0;
     }
 
-    public async Task DeleteAsync(string brandId)
+    public async Task<bool> DeleteAsync(string brandId)
     {
         FilterDefinition<BrandEntity> filter = Builders<BrandEntity>.Filter.Eq("Id", brandId);
-        await _context.BrandsCollection.DeleteOneAsync(filter);
+        
+        var result = await _context.BrandsCollection.DeleteOneAsync(filter);
+
+        return result.DeletedCount > 0;
+
     }
 }
   

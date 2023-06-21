@@ -5,11 +5,19 @@ using api.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.WebHost.ConfigureKestrel(options => {
+   options.ListenLocalhost(5000);
+});
+
 builder.Services.Configure<DatabaseModel>(builder.Configuration.GetSection("MongoDb"));
 
 builder.Services.AddSingleton<DatabaseContext>();
 
 builder.Services.AddScoped<IBrandRepository, BrandRepository>();
+
+builder.Services.AddScoped<IModelRepository, ModelRepository>();
+
+builder.Services.AddScoped<ICarRepository, CarRepository>();
 
 // Add services to the container.
 

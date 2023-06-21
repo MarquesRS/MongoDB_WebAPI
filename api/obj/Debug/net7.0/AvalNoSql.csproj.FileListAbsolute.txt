@@ -47,3 +47,5 @@ C:\Users\Marques\Desktop\TrabalhoBanco\src\api\obj\Debug\net7.0\refint\AvalNoSql
 C:\Users\Marques\Desktop\TrabalhoBanco\src\api\obj\Debug\net7.0\AvalNoSql.pdb
 C:\Users\Marques\Desktop\TrabalhoBanco\src\api\obj\Debug\net7.0\AvalNoSql.genruntimeconfig.cache
 C:\Users\Marques\Desktop\TrabalhoBanco\src\api\obj\Debug\net7.0\ref\AvalNoSql.dll
+C:\Users\Marques\Desktop\TrabalhoBanco\src\api\bin\Debug\net7.0\AutoMapper.dll
+C:\Users\Marques\Desktop\TrabalhoBanco\src\api\bin\Debug\net7.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll

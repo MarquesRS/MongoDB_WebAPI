@@ -1,4 +1,5 @@
 using api.Entities;
+using api.Models;
 
 namespace api.Repositories;
 
@@ -6,13 +7,13 @@ public interface IBrandRepository
 {
     Task<List<BrandEntity>> GetAllAsync();
 
-    Task<BrandEntity> GetByIdAsync(string brandId);
+    Task<BrandEntity?> GetByIdAsync(string brandId);
 
-    Task CreateAsync(BrandEntity brand);
+    Task<BrandEntity> CreateAsync(BrandEntity brand);
     
-    Task UpdateAsync(BrandEntity brand);
+    Task<bool> UpdateAsync(BrandEntity brand);
 
-    Task DeleteAsync(string brandId);
+    Task<bool> DeleteAsync(string brandId);
   }
   
   

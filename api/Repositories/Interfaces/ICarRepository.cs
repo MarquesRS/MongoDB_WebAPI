@@ -1,4 +1,5 @@
 using api.Entities;
+using api.Models;
 
 namespace api.Repositories;
 
@@ -6,13 +7,13 @@ public interface ICarRepository
 {
     Task<List<CarEntity>> GetAllAsync();
 
-    Task<CarEntity> GetByIdAsync(string carId);
+    Task<CarEntity?> GetByIdAsync(string id);
 
-    Task CreateAsync(CarEntity car);
+    Task<CarEntity> CreateAsync(CarEntity entity);
     
-    Task UpdateAsync(CarEntity car);
+    Task<bool> UpdateAsync(CarEntity entity);
 
-    Task DeleteAsync(string carId);
+    Task<bool> DeleteAsync(string id);
   }
   
   

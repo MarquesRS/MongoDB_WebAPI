@@ -10,20 +10,20 @@ using Newtonsoft.Json.Linq;
 namespace api.Controllers;
 
 [ApiController]
-[Route("api/cars")]
-public class CarController : MainController
+[Route("api/models")]
+public class ModelController : MainController
 {
-    private readonly ICarRepository _carRepository;
+    private readonly IModelRepository _modelRepository;
 
-    public CarController(ICarRepository carRepository, IMapper mapper) 
+    public ModelController(IModelRepository modelRepository, IMapper mapper) 
     {
-        _carRepository = carRepository;
+        _modelRepository = modelRepository;
     }
 
-    [HttpGet(Name = "CarControllerGetAll")]
+    [HttpGet(Name = "ModelControllerGetAll")]
     public async Task<ActionResult<IEnumerable<object>>> GetAll()
     {
-        var entities = await _carRepository.GetAllAsync();
+        var entities = await _modelRepository.GetAllAsync();
 
         if (entities.Count == 0) { return NoContent(); }
 
@@ -34,10 +34,10 @@ public class CarController : MainController
         );
     }
 
-    [HttpGet("{id}", Name = "CarControllerGetById")]
+    [HttpGet("{id}", Name = "ModelControllerGetById")]
     public async Task<ActionResult<object>> GetById(string id)
     {
-        var entity = await _carRepository.GetByIdAsync(id);
+        var entity = await _modelRepository.GetByIdAsync(id);
 
         if (entity == null) {
             return NotFound();
@@ -49,8 +49,8 @@ public class CarController : MainController
     }
 
     [HttpPost]
-    public async Task<ActionResult<CarEntity>> Create(
-        CarEntity request) 
+    public async Task<ActionResult<ModelEntity>> Create(
+        ModelEntity request) 
     {
         if (request.Id != null) {
             return BadRequest(
@@ -58,11 +58,11 @@ public class CarController : MainController
             );
         }
 
-        var response = await _carRepository
+        var response = await _modelRepository
             .CreateAsync(request);
 
         return CreatedAtRoute(
-            "CarControllerGetById",
+            "ModelControllerGetById",
             new {id = response.Id},
             MapEntity(response)
         );
@@ -71,7 +71,7 @@ public class CarController : MainController
     [HttpPut("{id}")]
     public async Task<IActionResult> Update(
         string id,
-        CarEntity request) 
+        ModelEntity request) 
     {
         if (request.Id == null || request.Id != id) {
             return BadRequest(
@@ -80,7 +80,7 @@ public class CarController : MainController
             );
         }
 
-        if( await _carRepository.UpdateAsync(request) ){
+        if( await _modelRepository.UpdateAsync(request) ){
             return Ok();
         }
 
@@ -90,7 +90,7 @@ public class CarController : MainController
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(string id)
     {
-        if( await _carRepository.DeleteAsync(id) ) {
+        if( await _modelRepository.DeleteAsync(id) ) {
             return NoContent();
         }
         
