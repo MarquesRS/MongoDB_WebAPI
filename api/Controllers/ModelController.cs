@@ -1,7 +1,7 @@
 using api.Entities;
 using api.Models;
 using api.Repositories;
-using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
  using Newtonsoft.Json;
@@ -15,11 +15,14 @@ public class ModelController : MainController
 {
     private readonly IModelRepository _modelRepository;
 
-    public ModelController(IModelRepository modelRepository, IMapper mapper) 
+    public ModelController(IModelRepository modelRepository) 
     {
         _modelRepository = modelRepository;
     }
 
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [Authorize]
     [HttpGet(Name = "ModelControllerGetAll")]
     public async Task<ActionResult<IEnumerable<object>>> GetAll()
     {
@@ -34,6 +37,9 @@ public class ModelController : MainController
         );
     }
 
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [Authorize]
     [HttpGet("{id}", Name = "ModelControllerGetById")]
     public async Task<ActionResult<object>> GetById(string id)
     {
@@ -48,6 +54,9 @@ public class ModelController : MainController
         );
     }
 
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [Authorize]
     [HttpPost]
     public async Task<ActionResult<ModelEntity>> Create(
         ModelEntity request) 
@@ -68,6 +77,10 @@ public class ModelController : MainController
         );
     }
 
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [Authorize]
     [HttpPut("{id}")]
     public async Task<IActionResult> Update(
         string id,
@@ -87,6 +100,10 @@ public class ModelController : MainController
         return NotFound();
     }
 
+
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [Authorize]
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(string id)
     {

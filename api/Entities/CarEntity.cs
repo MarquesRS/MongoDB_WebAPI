@@ -7,17 +7,30 @@ public class CarEntity
 {
     [BsonId]
     [BsonRepresentation(BsonType.ObjectId)]
+    [BsonIgnoreIfDefault]
     public string? Id {get; set;}
 
+
+    [BsonIgnoreIfDefault]
     public string? ModelId {get; set;}
 
-    public string Name {get; set;} = string.Empty;
 
-    public int Renavam {get; set;}
+    [BsonIgnoreIfDefault]
+    public string? Name {get; set;}
 
-    public string Plate {get; set;} = string.Empty;
 
-    public decimal value {get; set;}
+    [BsonIgnoreIfDefault]
+    public int? Renavam {get; set;}
 
-    public int Year {get; set;}
+
+    [BsonIgnoreIfDefault]
+    public string? Plate {get; set;}
+
+
+    [BsonIgnoreIfDefault]
+    public decimal? value {get; set;}
+    
+
+    [BsonIgnoreIfDefault]
+    public int? Year {get; set;}
 }

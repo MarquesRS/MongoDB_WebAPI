@@ -1,7 +1,7 @@
 using api.Entities;
 using api.Models;
 using api.Repositories;
-using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
  using Newtonsoft.Json;
@@ -15,11 +15,12 @@ public class BrandController : MainController
 {
     private readonly IBrandRepository _brandRepository;
 
-    public BrandController(IBrandRepository brandRepository, IMapper mapper) 
+    public BrandController(IBrandRepository brandRepository) 
     {
         _brandRepository = brandRepository;
     }
 
+    [Authorize]
     [HttpGet(Name = "BrandControllerGetAll")]
     public async Task<ActionResult<IEnumerable<object>>> GetAll()
     {
@@ -34,6 +35,7 @@ public class BrandController : MainController
         );
     }
 
+    [Authorize]
     [HttpGet("{brandId}", Name = "BrandControllerGetById")]
     public async Task<ActionResult<object>> GetById(string brandId)
     {
@@ -48,6 +50,7 @@ public class BrandController : MainController
         );
     }
 
+    [Authorize]
     [HttpPost]
     public async Task<ActionResult<BrandEntity>> Create(
         BrandEntity brandRequest) 
@@ -68,6 +71,7 @@ public class BrandController : MainController
         );
     }
 
+    [Authorize]
     [HttpPut("{brandId}")]
     public async Task<IActionResult> Update(
         string brandId,
@@ -87,6 +91,7 @@ public class BrandController : MainController
         return NotFound();
     }
 
+    [Authorize]
     [HttpDelete("{brandId}")]
     public async Task<IActionResult> Delete(string brandId)
     {

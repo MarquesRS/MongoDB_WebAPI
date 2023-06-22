@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>AvalNoSql</name>
+    </assembly>
+    <members>
+        <member name="M:api.Controllers.ModelController.GetAll">
+            <response code="204"> Não há registros relacionados no banco de dados </response>
+            <response code="200"> Registros relacionados presente no banco de dados </response>
+        </member>
+        <member name="M:api.Controllers.ModelController.GetById(System.String)">
+            <response code="404"> Nenhum registro relacionado a entrada fornecida </response>
+            <response code="200"> Registro encontrado no banco de dados </response>
+        </member>
+        <member name="M:api.Controllers.ModelController.Create(api.Entities.ModelEntity)">
+            <response code="400"> Não é possível informar um ID para essa operação. </response>
+            <response code="201"> Objeto criado e registrado no banco de dados </response>
+        </member>
+        <member name="M:api.Controllers.ModelController.Update(System.String,api.Entities.ModelEntity)">
+            <response code="400"> ID não informado no corpo da requisição ou divergente com a rota informada </response>
+            <response code="200"> Registro atualizado no banco de dados </response>
+            <response code="404"> Nenhum registro relacionado a entrada fornecida </response>
+        </member>
+        <member name="M:api.Controllers.ModelController.Delete(System.String)">
+            <response code="204"> Registro deletado </response>
+            <response code="404"> Nenhum registro relacionado a entrada fornecida </response>
+        </member>
+    </members>
+</doc>

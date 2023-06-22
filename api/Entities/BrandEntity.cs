@@ -9,6 +9,7 @@ namespace api.Entities
         [BsonRepresentation(BsonType.ObjectId)]
         [BsonIgnoreIfDefault]
         public string? Id {get; set;}
+        
 
         [BsonIgnoreIfDefault]
         public string? Name { get; set; }

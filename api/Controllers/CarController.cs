@@ -1,7 +1,7 @@
 using api.Entities;
 using api.Models;
 using api.Repositories;
-using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
  using Newtonsoft.Json;
@@ -15,11 +15,12 @@ public class CarController : MainController
 {
     private readonly ICarRepository _carRepository;
 
-    public CarController(ICarRepository carRepository, IMapper mapper) 
+    public CarController(ICarRepository carRepository) 
     {
         _carRepository = carRepository;
     }
 
+    [Authorize]
     [HttpGet(Name = "CarControllerGetAll")]
     public async Task<ActionResult<IEnumerable<object>>> GetAll()
     {
@@ -34,6 +35,7 @@ public class CarController : MainController
         );
     }
 
+    [Authorize]
     [HttpGet("{id}", Name = "CarControllerGetById")]
     public async Task<ActionResult<object>> GetById(string id)
     {
@@ -48,6 +50,7 @@ public class CarController : MainController
         );
     }
 
+    [Authorize]
     [HttpPost]
     public async Task<ActionResult<CarEntity>> Create(
         CarEntity request) 
@@ -68,6 +71,7 @@ public class CarController : MainController
         );
     }
 
+    [Authorize]
     [HttpPut("{id}")]
     public async Task<IActionResult> Update(
         string id,
@@ -87,6 +91,7 @@ public class CarController : MainController
         return NotFound();
     }
 
+    [Authorize]
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(string id)
     {
