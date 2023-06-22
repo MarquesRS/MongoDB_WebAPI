@@ -1,7 +1,9 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controllers;
  
+[Authorize]
 public class MainController : ControllerBase
 {
     protected object MapEntity(object entity)

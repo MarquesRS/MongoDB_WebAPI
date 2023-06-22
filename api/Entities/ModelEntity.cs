@@ -7,9 +7,14 @@ public class ModelEntity
 {
     [BsonId]
     [BsonRepresentation(BsonType.ObjectId)]
+    [BsonIgnoreIfDefault]
     public string? Id {get; set;}
+    
 
+    [BsonIgnoreIfDefault]
     public string? BrandId {get; set;}
 
-    public string Name {get; set;} = string.Empty;
+
+    [BsonIgnoreIfDefault]
+    public string? Name {get; set;}
 }
